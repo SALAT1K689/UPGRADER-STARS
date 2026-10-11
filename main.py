@@ -1,20 +1,17 @@
-import os
-import asyncio
+import os, asyncio
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import CommandObject, Command
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiohttp import web
 
-# ================= НАСТРОЙКИ (Вставь свои данные сюда) =================
-API_TOKEN = '8881661079:AAEO6Ru_B_fQgKZncK57lot5BKYVmhSov50'
-ADMIN_ID = 8873439307 # СЮДА_ВСТАВЬ_СВОЙ_ID_ИЗ_USERINFOBOT
-# =======================================================================
+# === НАСТРОЙКИ ===
+API_TOKEN = 'СЮДА_ВСТАВЬ_ТОКЕН_ИЗ_BOTFATHER'
+ADMIN_ID = 123456789  # СЮДА_ВСТАВЬ_СВОЙ_ID_ИЗ_USERINFOBOT
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
-users_db = {}  
+users_db = {}
 
-# Черно-зеленый интерфейс твоего приложения
 WEB_APP_HTML = """
 <!DOCTYPE html>
 <html lang="ru">
@@ -52,7 +49,6 @@ WEB_APP_HTML = """
         .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 70px; background-color: var(--card-bg); border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
         .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); background: none; border: none; font-size: 11px; gap: 5px; cursor: pointer; width: 33.3%; height: 100%; justify-content: center; }
         .nav-item.active { color: var(--accent-color); }
-        .nav-item svg { width: 22px; height: 22px; fill: currentColor; }
     </style>
 </head>
 <body>
@@ -97,13 +93,11 @@ WEB_APP_HTML = """
             { id: 7, emoji: '👑', price: 1500 }, { id: 8, emoji: '💍', price: 5000 }
         ];
         let selectedSource = null, selectedTarget = null;
-        
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             const u = tg.initDataUnsafe.user;
             document.getElementById('user-name').innerText = `@${u.username || 'user'}`;
             document.getElementById('ref-url').innerText = `https://t.me` + tg.initDataUnsafe.receiver.username + `?start=r_` + u.id;
         }
-
         function renderGrids() {
             const sg = document.getElementById('grid-source'), tgGrid = document.getElementById('grid-target');
             giftData.forEach(item => {
@@ -124,5 +118,8 @@ WEB_APP_HTML = """
         }
         function switchTab(id, btn) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-            document.getElementById(`tab-${id}`).classList.add('active'); btn.classList.add('active');
+            document.getElementById(`tab-${id}`).classList.add('active');
+        }
+        function copyRef() { navigator.clipboard.writeText(document.getElementById('ref-url').innerText).then(() => tg.showAlert("Ссылка скопирована!")); }
+        function depositStars() { tg.showAlert("Запрос отправлен."); }
+        function sendWithdraw() {
