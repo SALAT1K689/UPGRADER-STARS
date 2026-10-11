@@ -5,8 +5,8 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiohttp import web
 
 # === НАСТРОЙКИ ===
-API_TOKEN = 'СЮДА_ВСТАВЬ_ТОКЕН_ИЗ_BOTFATHER'
-ADMIN_ID = 123456789  # СЮДА_ВСТАВЬ_СВОЙ_ID_ИЗ_USERINFOBOT
+API_TOKEN = '8881661079:AAEO6Ru_B_fQgKZncK57lot5BKYVmhSov50'
+ADMIN_ID = 8873439307 # СЮДА_ВСТАВЬ_СВОЙ_ID_ИЗ_USERINFOBOT
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
