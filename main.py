@@ -5,8 +5,8 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiohttp import web
 
 # === НАСТРОЙКИ ===
-API_TOKEN = '8881661079:AAEO6Ru_B_fQgKZncK57lot5BKYVmhSov50'
-ADMIN_ID = 8873439307 # СЮДА_ВСТАВЬ_СВОЙ_ID_ИЗ_USERINFOBOT
+API_TOKEN = 'СЮДА_ВСТАВЬ_ТОКЕН_ИЗ_BOTFATHER'
+ADMIN_ID = 123456789  # СЮДА_ВСТАВЬ_СВОЙ_ID_ИЗ_USERINFOBOT
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
@@ -38,7 +38,6 @@ WEB_APP_HTML = """
         .gift-emoji { font-size: 24px; margin-bottom: 8px; }
         .gift-price { font-size: 12px; font-weight: bold; color: var(--text-color); display: flex; align-items: center; justify-content: center; gap: 2px; }
         .gift-price span { color: var(--accent-color); }
-        .btn-main { background: linear-gradient(135deg, #00c853 0%, #007e33 100%); color: #000000; border: none; border-radius: 14px; padding: 16px; font-size: 16px; font-weight: 900; letter-spacing: 1px; cursor: pointer; width: 100%; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px rgba(0, 230, 118, 0.3); }
         .card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 20px; margin-bottom: 15px; text-align: center; }
         .ref-box { background: #050505; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); word-break: break-all; margin: 15px 0; font-family: monospace; color: var(--text-muted); }
         .balance-title { font-size: 14px; color: var(--text-muted); margin-bottom: 5px; }
@@ -123,3 +122,8 @@ WEB_APP_HTML = """
         function copyRef() { navigator.clipboard.writeText(document.getElementById('ref-url').innerText).then(() => tg.showAlert("Ссылка скопирована!")); }
         function depositStars() { tg.showAlert("Запрос отправлен."); }
         function sendWithdraw() {
+            tg.showPopup({ title: 'Вывод подарка', message: 'Введите получателя:', buttons: [{id: 'ok', type: 'default', text: 'Вывести'}, {id: 'c', type: 'cancel', text: 'Отмена'}] }, (btnId) => {
+                if(btnId === 'ok') {
+                    fetch('/api/withdraw', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ user_id: tg.initDataUnsafe.user.id }) });
+                    tg.showAlert("Заявка отправлена!");
+                }
